@@ -1,0 +1,16 @@
+body{
+    background-color: #161616;
+}
+.light{
+    background-color: #efeeea;
+}
+.blue{
+    background-color: #273f4f;
+    color: white;
+}
+.nav-item, a.nav-link{
+    display: flex;
+    height: 3.5rem;
+    justify-content: center;
+    align-items: center;
+}
