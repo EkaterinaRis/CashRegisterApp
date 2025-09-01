@@ -10,7 +10,7 @@ import { AuthContext } from "../context/AuthContext";
 
 function NewEmployee(props) {
 
-    const {store}=useContext(AuthContext);
+    const { store } = useContext(AuthContext);
 
     const [alertMax, setAlertMaxEmployees] = useState(false);
 
@@ -25,6 +25,7 @@ function NewEmployee(props) {
         start: now,
         register_id: 0,
         store_id: store.id,
+        role:"cashier"
     });
 
     const navigate = useNavigate();
@@ -50,8 +51,9 @@ function NewEmployee(props) {
             "start": employee.start,
             "register_id": employee.register_id,
             "store_id": employee.store_id,
+            "role":employee.role
         }).then(() => { navigate("/allRegisters"); })
-        .catch((error) => { setAlertMaxEmployees(true); })
+            .catch((error) => { setAlertMaxEmployees(true); })
     }
 
     if (alertMax) {
@@ -91,6 +93,16 @@ function NewEmployee(props) {
                 <Form.Group as={Col} controlId="formGridZip">
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Enter password" value={employee.password} onChange={handleInput} name="password" />
+                </Form.Group>
+            </Row>
+
+            <Row>
+                <Form.Group className="mb-3">
+                    <Form.Label>Role</Form.Label>
+                    <Form.Select  onChange={handleInput} name="role">
+                        <option>cashier</option>
+                        <option>product manager</option>
+                    </Form.Select>
                 </Form.Group>
             </Row>
 

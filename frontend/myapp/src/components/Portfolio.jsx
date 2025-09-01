@@ -18,12 +18,6 @@ function Portfolio() {
 
             console.log("Employee status updated");
 
-            await axios.patch(`http://localhost:8000/cash_register/api/register/${register.id}/`, {
-                used: false,
-            });
-
-            console.log("Register status updated");
-
             await axios.post('http://localhost:8000/cash_register/api/workTime/', {
                 employee_id: user.id,
                 start: user.start,
@@ -49,7 +43,7 @@ function Portfolio() {
         };
     }, []);
 
-    if (!user || !register) {
+    if (!user) {
         return <div>Loading...</div>;
     }
 

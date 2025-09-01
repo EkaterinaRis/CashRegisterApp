@@ -25,7 +25,7 @@ function WorkTime() {
     return <div>
         <Portfolio></Portfolio>
         <PortfolioNavbar></PortfolioNavbar>
-        <div className="light" style={{textAlign:"center",padding:"3rem",minHeight:"40rem"}}>
+        <div className="dark" style={{textAlign:"center",padding:"3rem",minHeight:"40rem"}}>
             <h4>Worktime statistics in store</h4>
             <MyEmployeeTable data={workTime}></MyEmployeeTable>
         </div>

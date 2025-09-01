@@ -6,14 +6,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
-function CheckIn(props) {
+function CheckInManager(props) {
 
     const {user,userlogin,register,store,userlogout}=useContext(AuthContext);
 
     const [users, setUsers] = useState([]);
-    const [alertLogged, setAlertLogged] = useState(false);
-    const [alert, setAlert] = useState(false);
     const [alertAuth, setAuth] = useState(false);
+    const [alert, setAlert] = useState(false);
     const [logIn, setLogIn] = useState({
         username: "",
         password: "",
@@ -44,13 +43,6 @@ function CheckIn(props) {
         await axios.patch('http://localhost:8000/cash_register/api/employee/' + user.id + '/', {
             "logedIn": true,
             "start": now,
-            "register_id": register.id
-        }).then(() => { console.log("updated") })
-            .catch((error) => { console.log(error) })
-
-        await axios.patch('http://localhost:8000/cash_register/api/register/' + register.id + '/', {
-            "employee_id": user.id,
-            "used": true,
         }).then(() => { console.log("updated") })
             .catch((error) => { console.log(error) })
     }
@@ -58,18 +50,12 @@ function CheckIn(props) {
     function handleSubmit(event) {
         event.preventDefault();
         const user = users.filter((x) => x.username === logIn.username && x.password === logIn.password && store.id === x.store_id);
-        if(user.length === 1 && user[0].role != "cashier"){
-             setLogIn({
-                username: "",
-                password: "",
-            })
-            setAuth(true);
-        }else if (user.length === 1 && user[0].logedIn === true) {
+        if (user.length === 1 && user[0].role === "cashier") {
             setLogIn({
                 username: "",
                 password: "",
             })
-            setAlertLogged(true);
+            setAuth(true);
         } else if (user.length > 1 || user.length === 0) {
             setLogIn({
                 username: "",
@@ -80,7 +66,7 @@ function CheckIn(props) {
             userlogout();
             userlogin(user[0]);
             updateUser(user[0]);
-            navigate('/register');
+            navigate('/products');
         }
     };
 
@@ -103,20 +89,7 @@ function CheckIn(props) {
                 <Alert variant="info" onClose={() => setAuth(false)} dismissible>
                     <Alert.Heading>You got an error!</Alert.Heading>
                     <p>
-                        You are not authorized. Only cashiers allowed.
-                    </p>
-                </Alert>
-            </div>
-        );
-    }
-
-    if (alertLogged) {
-        return (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50rem" }}>
-                <Alert variant="info" onClose={() => setAlertLogged(false)} dismissible>
-                    <Alert.Heading>You got an error!</Alert.Heading>
-                    <p>
-                        You are already logged in another register. Please log out first.
+                        You are not authorized. Only product managers allowed.
                     </p>
                 </Alert>
             </div>
@@ -144,4 +117,4 @@ function CheckIn(props) {
         </div>
     </div>
 }
-export default CheckIn
+export default CheckInManager

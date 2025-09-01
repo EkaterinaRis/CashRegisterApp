@@ -6,6 +6,7 @@ import StoreLogIn from "./pages/StoreLogIn";
 import StoreSignIn from "./pages/StoreSignIn";
 import AllRegisters from "./pages/AllRegisters";
 import CheckIn from "./pages/CheckIn";
+import CheckInManager from "./pages/CheckInManager";
 import NewEmployee from "./pages/NewEmployee";
 import MoreEmployees from "./pages/MoreEmployees";
 import Products from "./pages/Products";
@@ -27,6 +28,7 @@ function App() {
           <Route path="/newStore" element={<StoreSignIn />}/>
           <Route path="/allRegisters" element={<AllRegisters/>}/>
           <Route path="/checkIn" element={<CheckIn/>}/>
+          <Route path="/checkInManager" element={<CheckInManager/>}/>
           <Route path="/newEmployee" element={<NewEmployee/>}/>
           <Route path="/moreEmployees" element={<MoreEmployees/>}/>
           <Route path="/products" element={<Products/>}/>

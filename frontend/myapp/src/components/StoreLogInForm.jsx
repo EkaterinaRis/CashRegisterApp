@@ -47,7 +47,7 @@ function StoreLogInForm(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        const store = stores.filter((x) => x.code === logIn.code && x.password === logIn.password);
+        const store = stores.filter((x) => x.code === logIn.code && x.password === logIn.password && x.company_id===company.id);
         console.log(store);
         console.log(stores);
         if (store.length > 1 || store.length === 0) {

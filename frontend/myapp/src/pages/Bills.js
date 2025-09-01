@@ -32,7 +32,7 @@ function Bills() {
     return <div>
         <Portfolio></Portfolio>
         <PortfolioNavbar></PortfolioNavbar>
-        <div className="light" style={{ textAlign: "center", padding: "3rem", minHeight: "40rem" }}>
+        <div className="dark" style={{ textAlign: "center", padding: "3rem", minHeight: "40rem" }}>
             <h4>Previous payments in the store</h4>
             <MyBillTable data={bills}></MyBillTable>
             <br></br><br></br>

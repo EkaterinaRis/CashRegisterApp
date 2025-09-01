@@ -56,7 +56,7 @@ function AllRegisters(props) {
             <Card.Body>
                 <Card.Title>Register {count}</Card.Title>
                 <Card.Text>
-                    Employees can not log in a busy register. Employee can not be logged in more then one register at the same time.
+                    Cashiers only. Employees can not log in a busy register. Employee can not be logged in more then one register at the same time.
                 </Card.Text>
                 {!register.used && <Button variant="light" onClick={() => { handleClick(register) }}>Check in register</Button>}
             </Card.Body>
@@ -69,6 +69,10 @@ function AllRegisters(props) {
 
     function handleRequest() {
         navigate("/moreEmployees");
+    }
+
+    function handleManager(){
+        navigate("/checkInManager");
     }
 
     async function addingRegister() {
@@ -99,6 +103,9 @@ function AllRegisters(props) {
                 {<Button onClick={handleRequest} style={{ marginRight: "1rem" }}>Request for more employees</Button>}
                 {<Button onClick={addingRegister}>Add cash register</Button>}
             </div>
+        </div>
+        <div style={{margin:"2rem"}}>
+            <Button onClick={handleManager}>Log in for product managers only</Button>
         </div>
         <div style={{ display: "flex", marginTop: "2rem", flexWrap: "wrap", justifyContent: "center" }}>
             {(registers.length > 0) && registers.map((x) => getRegisterCard(x))}

@@ -22,7 +22,7 @@ function AddingProduct(props) {
         description: "",
         maxItems: "",
         minItems: "",
-        numItems: ""
+        numItems: 0
     });
 
     const navigate = useNavigate();
@@ -110,11 +110,6 @@ function AddingProduct(props) {
                 </Row>
 
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridZip">
-                        <Form.Label>Avaliable pieces</Form.Label>
-                        <Form.Control type="number" name="numItems" value={product.numItems} onChange={handleChange} min={0}/>
-                    </Form.Group>
-
                     <Form.Group as={Col} controlId="formGridZip">
                         <Form.Label>Maximum pieces</Form.Label>
                         <Form.Control type="number" name="maxItems" value={product.maxItems} onChange={handleChange} min={0}/>

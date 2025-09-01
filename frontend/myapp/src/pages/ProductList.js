@@ -28,7 +28,7 @@ function ProductList() {
     return <div>
         <Portfolio></Portfolio>
         <PortfolioNavbar></PortfolioNavbar>
-        <div className="light" style={{ textAlign: "center", padding: "2rem", minHeight: "40rem" }}>
+        <div className="dark" style={{ textAlign: "center", padding: "2rem", minHeight: "40rem" }}>
             <h4>Products in all store</h4>
             <MyProductTable data={products}></MyProductTable>
         </div>

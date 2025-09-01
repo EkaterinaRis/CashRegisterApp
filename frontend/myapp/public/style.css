@@ -14,3 +14,7 @@ body{
     justify-content: center;
     align-items: center;
 }
+.dark{
+    background-color: #161616;
+    color:white;
+}

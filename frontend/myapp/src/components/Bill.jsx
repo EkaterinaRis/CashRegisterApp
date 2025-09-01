@@ -67,7 +67,7 @@ function Bill(props) {
 
     if (alert) {
         return (
-            <Alert variant="success" onClose={() => setAlert(false)} dismissible style={{ width: "30%", margin: "1rem"}}>
+            <Alert variant="success" onClose={() => setAlert(false)} dismissible style={{ width: "30%", margin: "1rem" }}>
                 <div>
                     <Alert.Heading>Successfull payment</Alert.Heading>
                     <p>Thank you!</p>
@@ -77,7 +77,7 @@ function Bill(props) {
     }
 
 
-    return <Card style={{ width: "30%", margin: "1rem" }}>
+    return <Card style={{ width: "30%", margin: "1rem"}}>
         <Card.Header>New payment</Card.Header>
         <Card.Body>
             <Card.Title>Selected products</Card.Title>

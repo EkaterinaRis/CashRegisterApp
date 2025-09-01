@@ -39,7 +39,7 @@ function CardToBuy(props) {
         setAdded(true);
     }
 
-    return <Card style={{ maxWidth: "20em", background: "#efeeea", margin: "1rem" }}>
+    return <Card style={{ maxWidth: "18em", background: "#efeeea", margin: "1rem" }}>
         <Card.Img variant="top" src={card.image} style={{ maxHeight: "25rem" }} />
         <Card.Body style={{ minHeight: "11rem" }}>
             <Card.Title>{card.name}</Card.Title>
