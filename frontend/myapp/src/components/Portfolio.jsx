@@ -12,6 +12,12 @@ function Portfolio() {
 
     const handleLogOut = async () => {
         try {
+            if (user.role == "cashier") {
+                await axios.patch(`http://localhost:8000/cash_register/api/register/${register.id}/`, {
+                    used: false,
+                });
+            }
+
             await axios.patch(`http://localhost:8000/cash_register/api/employee/${user.id}/`, {
                 logedIn: false,
             });
@@ -22,7 +28,7 @@ function Portfolio() {
                 employee_id: user.id,
                 start: user.start,
                 end: now,
-                store_id:store.id
+                store_id: store.id
             });
 
             console.log("Work time logged");
@@ -53,9 +59,9 @@ function Portfolio() {
                 <Image src={company.image} style={{ maxHeight: "16rem" }} />
             </div>
             <div style={{ color: "white", width: "50%", boxSizing: "border-box", padding: "2rem", }} className="blue">
-                <h2 style={{textTransform:"capitalize"}}>In register: {user.name} {user.surname}</h2>
+                <h2 style={{ textTransform: "capitalize" }}>In register: {user.name} {user.surname}</h2>
                 <hr />
-                <div style={{marginBottom:"1rem"}}>
+                <div style={{ marginBottom: "1rem" }}>
                     <p style={{ margin: "0px" }}>Employee ID: {user.id}</p>
                     <p style={{ margin: "0px" }}>Username: {user.username}</p>
                     <p style={{ margin: "0px" }}>{company.name} store: {store.code}</p>

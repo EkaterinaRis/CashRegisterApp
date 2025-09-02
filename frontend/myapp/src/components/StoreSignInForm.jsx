@@ -13,6 +13,7 @@ function StoreSignInForm(props) {
     const { company } = useContext(AuthContext);
 
     const [alert, setAlert] = useState(false);
+    const [alertSubmit, setAlertSubmit] = useState(false);
     const [store, setStore] = useState({
         code: "",
         password: "",
@@ -23,7 +24,7 @@ function StoreSignInForm(props) {
 
     const navigate = useNavigate();
 
-    if(!company){
+    if (!company) {
         navigate("/");
     }
 
@@ -39,24 +40,28 @@ function StoreSignInForm(props) {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        const result = await axios.post('http://localhost:8000/cash_register/api/store/', {
-            code: store.code,
-            password: store.password,
-            numberEmployees: store.numberEmployees,
-            numberOfCashRegisters: store.numberOfCashRegisters,
-            company_id: store.company_id,
-        }).then((data) => {
-            for (let i = 0; i < store.numberOfCashRegisters; i++) {
-                axios.post('http://localhost:8000/cash_register/api/register/', {
-                    used: false,
-                    store_id: data.data.id
-                });
-            }
-        }).catch((err) => {
-            setAlert(true);
-            console.log(err);
-        })
-        navigate("/getInStore");
+        if (store.code == "" || store.numberEmployees == "" || store.numberOfCashRegisters == "" || store.password == "") {
+            setAlertSubmit(true);
+        } else {
+            const result = await axios.post('http://localhost:8000/cash_register/api/store/', {
+                code: store.code,
+                password: store.password,
+                numberEmployees: store.numberEmployees,
+                numberOfCashRegisters: store.numberOfCashRegisters,
+                company_id: store.company_id,
+            }).then((data) => {
+                for (let i = 0; i < store.numberOfCashRegisters; i++) {
+                    axios.post('http://localhost:8000/cash_register/api/register/', {
+                        used: false,
+                        store_id: data.data.id
+                    });
+                }
+            }).catch((err) => {
+                setAlert(true);
+                console.log(err);
+            })
+            navigate("/getInStore");
+        }
     };
 
     if (alert) {
@@ -65,6 +70,17 @@ function StoreSignInForm(props) {
                 <Alert.Heading>You got an error!</Alert.Heading>
                 <p>
                     The entered code is already in use, all stores must have unique codes. Please try again.
+                </p>
+            </Alert>
+        );
+    }
+
+    if (alertSubmit) {
+        return (
+            <Alert variant="info" onClose={() => setAlertSubmit(false)} dismissible>
+                <Alert.Heading>You got an error!</Alert.Heading>
+                <p>
+                    All form boxes must be fulfilled.
                 </p>
             </Alert>
         );
@@ -87,12 +103,12 @@ function StoreSignInForm(props) {
 
             <Form.Group className="mb-3" controlId="formGridAddress1">
                 <Form.Label>Number Employees</Form.Label>
-                <Form.Control type="number" value={store.numberEmployees} onChange={handleInput} name="numberEmployees" />
+                <Form.Control type="number" value={store.numberEmployees} onChange={handleInput} name="numberEmployees" min={1} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formGridAddress2">
                 <Form.Label>Number of cash registers</Form.Label>
-                <Form.Control type="number" value={store.numberOfCashRegisters} onChange={handleInput} name="numberOfCashRegisters" />
+                <Form.Control type="number" value={store.numberOfCashRegisters} onChange={handleInput} name="numberOfCashRegisters" min={1} />
             </Form.Group>
 
             <Form.Group className="mb-3" id="formGridCheckbox">

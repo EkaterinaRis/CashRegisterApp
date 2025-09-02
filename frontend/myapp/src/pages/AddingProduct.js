@@ -7,10 +7,13 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { AuthContext } from "../context/AuthContext";
+import Alert from 'react-bootstrap/Alert';
 
 function AddingProduct(props) {
 
-    const {store}=useContext(AuthContext);
+    const { store } = useContext(AuthContext);
+
+    const [alertSubmit, setAlertSubmit] = useState(false);
 
     const [product, setProduct] = useState({
         store_id: store.id,
@@ -29,33 +32,37 @@ function AddingProduct(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(product);
-        axios.post('http://localhost:8000/cash_register/api/product/', {
-            "store_id": product.store_id,
-            "image": product.image,
-            "name": product.name,
-            "code": product.code,
-            "price": product.price,
-            "limitedEdition": product.limitedEdition,
-            "description": product.description,
-            "maxItems": product.maxItems,
-            "minItems": product.minItems,
-            "numItems": product.numItems,
-            "newPrice": product.price
-        });
-        setProduct({
-            store_id: store.id,
-            image: "",
-            name: "",
-            code: "",
-            price: "",
-            limitedEdition: "",
-            description: "",
-            maxItems: "",
-            minItems: "",
-            numItems: ""
-        })
-        navigate("/products");
+        if (product.image == "" || product.name == "" || product.code == "" || product.price == "" || product.description == "" || product.maxItems == "" || product.minItems == "") {
+            setAlertSubmit(true);
+        } else {
+            console.log(product);
+            axios.post('http://localhost:8000/cash_register/api/product/', {
+                "store_id": product.store_id,
+                "image": product.image,
+                "name": product.name,
+                "code": product.code,
+                "price": product.price,
+                "limitedEdition": product.limitedEdition,
+                "description": product.description,
+                "maxItems": product.maxItems,
+                "minItems": product.minItems,
+                "numItems": product.numItems,
+                "newPrice": product.price
+            });
+            setProduct({
+                store_id: store.id,
+                image: "",
+                name: "",
+                code: "",
+                price: "",
+                limitedEdition: "",
+                description: "",
+                maxItems: "",
+                minItems: "",
+                numItems: ""
+            })
+            navigate("/products");
+        }
     };
 
     function handleChange(event) {
@@ -68,6 +75,19 @@ function AddingProduct(props) {
         ));
     }
 
+    if (alertSubmit) {
+        return (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50rem" }}>
+                <Alert variant="info" onClose={() => setAlertSubmit(false)} dismissible>
+                    <Alert.Heading>You got an error!</Alert.Heading>
+                    <p>
+                        All form boxes must be fulfilled.
+                    </p>
+                </Alert>
+            </div>
+        );
+    }
+
     return (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50rem" }}>
             <Form className="light" style={{ padding: "2rem" }}>
@@ -75,29 +95,29 @@ function AddingProduct(props) {
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridEmail">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" name="name" placeholder="Enter name" onChange={handleChange} value={product.name}/>
+                        <Form.Control type="text" name="name" placeholder="Enter name" onChange={handleChange} value={product.name} />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridPassword">
                         <Form.Label>Barcode</Form.Label>
-                        <Form.Control type="text" name="code" placeholder="Enter barcode" onChange={handleChange} value={product.code}/>
+                        <Form.Control type="text" name="code" placeholder="Enter barcode" onChange={handleChange} value={product.code} />
                     </Form.Group>
                 </Row>
 
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                     <Form.Label>Description</Form.Label>
-                    <Form.Control placeholder="Description" type="text" name="description" onChange={handleChange} value={product.description}/>
+                    <Form.Control placeholder="Description" type="text" name="description" onChange={handleChange} value={product.description} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                     <Form.Label>Image</Form.Label>
-                    <Form.Control placeholder="Image link" type="text" name="image" onChange={handleChange} value={product.image}/>
+                    <Form.Control placeholder="Image link" type="text" name="image" onChange={handleChange} value={product.image} />
                 </Form.Group>
 
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridCity">
                         <Form.Label>Price</Form.Label>
-                        <Form.Control type="number" name="price" onChange={handleChange} value={product.price} min={0}/>
+                        <Form.Control type="number" name="price" onChange={handleChange} value={product.price} min={0} />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridState">
@@ -112,12 +132,12 @@ function AddingProduct(props) {
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridZip">
                         <Form.Label>Maximum pieces</Form.Label>
-                        <Form.Control type="number" name="maxItems" value={product.maxItems} onChange={handleChange} min={0}/>
+                        <Form.Control type="number" name="maxItems" value={product.maxItems} onChange={handleChange} min={0} />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridZip">
                         <Form.Label>Minimum pieces</Form.Label>
-                        <Form.Control type="number" name="minItems" value={product.minItems} onChange={handleChange} min={0}/>
+                        <Form.Control type="number" name="minItems" value={product.minItems} onChange={handleChange} min={0} />
                     </Form.Group>
                 </Row>
 

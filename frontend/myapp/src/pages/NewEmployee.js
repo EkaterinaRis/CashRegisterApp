@@ -13,6 +13,7 @@ function NewEmployee(props) {
     const { store } = useContext(AuthContext);
 
     const [alertMax, setAlertMaxEmployees] = useState(false);
+    const [alertSubmit, setAlertSubmit] = useState(false);
 
     const now = new Date().toISOString();
 
@@ -25,7 +26,7 @@ function NewEmployee(props) {
         start: now,
         register_id: 0,
         store_id: store.id,
-        role:"cashier"
+        role: "cashier"
     });
 
     const navigate = useNavigate();
@@ -42,18 +43,22 @@ function NewEmployee(props) {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        await axios.post('http://localhost:8000/cash_register/api/employee/', {
-            "name": employee.name,
-            "surname": employee.surname,
-            "username": employee.username,
-            "password": employee.password,
-            "logedIn": employee.logedIn,
-            "start": employee.start,
-            "register_id": employee.register_id,
-            "store_id": employee.store_id,
-            "role":employee.role
-        }).then(() => { navigate("/allRegisters"); })
-            .catch((error) => { setAlertMaxEmployees(true); })
+        if (employee.name == "" || employee.surname == "" || employee.password == "" || employee.username == "") {
+            setAlertSubmit(true);
+        } else {
+            await axios.post('http://localhost:8000/cash_register/api/employee/', {
+                "name": employee.name,
+                "surname": employee.surname,
+                "username": employee.username,
+                "password": employee.password,
+                "logedIn": employee.logedIn,
+                "start": employee.start,
+                "register_id": employee.register_id,
+                "store_id": employee.store_id,
+                "role": employee.role
+            }).then(() => { navigate("/allRegisters"); })
+                .catch((error) => { setAlertMaxEmployees(true); })
+        }
     }
 
     if (alertMax) {
@@ -63,6 +68,19 @@ function NewEmployee(props) {
                     <Alert.Heading>You got an error!</Alert.Heading>
                     <p>
                         Try a different username.
+                    </p>
+                </Alert>
+            </div>
+        );
+    }
+
+    if (alertSubmit) {
+        return (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50rem" }}>
+                <Alert variant="info" onClose={() => setAlertSubmit(false)} dismissible>
+                    <Alert.Heading>You got an error!</Alert.Heading>
+                    <p>
+                        All form boxes must be fulfilled.
                     </p>
                 </Alert>
             </div>
@@ -99,7 +117,7 @@ function NewEmployee(props) {
             <Row>
                 <Form.Group className="mb-3">
                     <Form.Label>Role</Form.Label>
-                    <Form.Select  onChange={handleInput} name="role">
+                    <Form.Select onChange={handleInput} name="role">
                         <option>cashier</option>
                         <option>product manager</option>
                     </Form.Select>

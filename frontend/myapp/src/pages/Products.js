@@ -24,9 +24,9 @@ function Products() {
         async function loadProducts() {
             try {
                 const { data } = await axios.get(`http://localhost:8000/cash_register/api/product/?store_id=${store.id}/`);
-                const filtered = data.filter((x) => x.store_id === store.id && x.numItems > 0);
+                const filtered = data.filter((x) => x.store_id === store.id && x.numItems >= 0);
                 setAllProducts(filtered);
-                setFilteredProducts(filtered); // initialize both
+                setFilteredProducts(filtered); 
             } catch (error) {
                 console.error("Failed to load products:", error);
             }
